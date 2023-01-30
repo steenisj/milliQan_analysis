@@ -33,7 +33,8 @@ writer2 = csv.writer(f2)
 
 for i in np.arange(len(run_number)):
     #Open this from the milliQanSourceRuns folder!
-    inputFile = r.TFile("./milliQanSourceRuns/MilliQan_Run{run}_default_v28.root".format(run=run_number[i]))
+    inputFile = r.TFile("./milliQanSourceRuns/MilliQan_Run{run}_default_v28.root".format(run=run_number[i])) #Local
+    #inputFile = r.TFile("/homes/milliqan/milliqanOffline/Run3Detector/outputRun3/v29/MilliQan_Run{run}_default_v29.root".format(run=run_number[i])) #UCSB
     inputTree = inputFile.Get("t")
 
     height_histo = r.TH1D("height_histo", "chan"+str(channel_cut)+";height", 200, 0, 400) #Not necessary here.

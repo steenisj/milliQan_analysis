@@ -58,7 +58,7 @@ for i in np.arange(len(run_number)):
     r.gStyle.SetOptFit(1011)
     params1 = f1.GetParameters()
 
-    f2 = r.TF1("f2", "gaus", 5*params1[1], 20*params1[1])
+    f2 = r.TF1("f2", "gaus", 5*params1[1], 15*params1[1])
     
     area_histo.Fit("f2", "RL+")
     params2 = f2.GetParameters()

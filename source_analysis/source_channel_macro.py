@@ -7,6 +7,7 @@ from pandas import *
 
 # reading CSV file
 data = read_csv("sourceRuns.csv")
+version = "29"
  
 # converting column data to list
 channel_cut = data['Channel'].tolist()
@@ -25,8 +26,8 @@ path = os.path.join(parent_dir, directory)
 os.makedirs(path, exist_ok=True)
 
 #To initiate the .csv files
-f1 = open('./source_calib/param_values1.csv', 'w')
-f2 = open('./source_calib/param_values2.csv', 'w')
+f1 = open('./source_calib/param_values1_v{ver}.csv'.format(ver=version), 'w')
+f2 = open('./source_calib/param_values2_v{ver}.csv'.format(ver=version), 'w')
 # create the csv writers
 writer1 = csv.writer(f1)
 writer2 = csv.writer(f2)
@@ -34,11 +35,11 @@ writer2 = csv.writer(f2)
 for i in np.arange(len(run_number)):
     #Open this from the milliQanSourceRuns folder!
     #inputFile = r.TFile("./milliQanSourceRuns/MilliQan_Run{run}_default_v28.root".format(run=run_number[i])) #Local
-    inputFile = r.TFile("/homes/milliqan/milliqanOffline/Run3Detector/outputRun3/v29/MilliQan_Run{run}_default_v29.root".format(run=run_number[i])) #UCSB
+    inputFile = r.TFile("/homes/milliqan/milliqanOffline/Run3Detector/outputRun3/v{ver}/MilliQan_Run{run}_default_v{ver}.root".format(run=run_number[i], ver=version)) #UCSB
     inputTree = inputFile.Get("t")
 
     height_histo = r.TH1D("height_histo", "chan"+str(channel_cut)+";height", 200, 0, 400) #Not necessary here.
-    area_histo = r.TH1D("area_histo", "chan{chan}_run{run}; area".format(chan=channel_cut[i], run=run_number[i]), 250, 0, 18750)
+    area_histo = r.TH1D("area_histo", "chan{chan}_run{run}_v{ver}; area".format(chan=channel_cut[i], run=run_number[i],ver=version), 250, 0, 18750)
     oC = r.TCanvas()
 
     #Performing the cuts and filling the desired histo
@@ -96,4 +97,4 @@ for i in np.arange(len(run_number)):
     writer1.writerow(csv_params1)
     writer2.writerow(csv_params2)
 
-    oC.SaveAs("./source_calib/area_histo_chan{chan}_run{run}.png".format(chan=channel_cut[i], run=run_number[i]))
+    oC.SaveAs("./source_calib/area_histo_chan{chan}_run{run}_v{ver}.png".format(chan=channel_cut[i], run=run_number[i],ver=version))
